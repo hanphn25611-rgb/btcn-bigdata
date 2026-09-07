@@ -565,27 +565,29 @@ with tab3:
         action = str(c.get("action", ""))
         dept   = str(c.get("dept", ""))
         aspect = str(c.get("aspect_vi", ""))
+        td = "padding:8px 12px; white-space:nowrap; border-bottom:1px solid #f0f2f5; border-right:1px solid #f0f2f5; background:#ffffff; vertical-align:middle;"
         rows_html += f"""<tr>
-            <td style="white-space:nowrap;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{dot_color};margin-right:6px;"></span>{pri}</td>
-            <td style="white-space:nowrap;">{aspect}</td>
-            <td style="white-space:nowrap;text-align:right;">{score_str}</td>
-            <td style="white-space:nowrap;text-align:right;">{neg_str}</td>
-            <td style="white-space:nowrap;text-align:right;">{avg_str}</td>
-            <td style="white-space:nowrap;">{dept}</td>
-            <td style="white-space:nowrap;max-width:420px;">{action}</td>
+            <td style="{td}"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{dot_color};margin-right:6px;vertical-align:middle;"></span>{pri}</td>
+            <td style="{td}">{aspect}</td>
+            <td style="{td} text-align:right;">{score_str}</td>
+            <td style="{td} text-align:right;">{neg_str}</td>
+            <td style="{td} text-align:right;">{avg_str}</td>
+            <td style="{td}">{dept}</td>
+            <td style="{td} border-right:none;">{action}</td>
         </tr>"""
+    th = "padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:2px solid #e8ecf0; border-right:1px solid #e8ecf0; background:#f8f9fb; color:#6b7280; font-weight:600;"
     st.markdown(f"""
     <div style="overflow-x:auto; border:1px solid #e8ecf0; border-radius:10px; max-height:300px; overflow-y:auto;">
-    <table style="border-collapse:collapse; width:100%; font-size:0.83rem; font-family:Inter,sans-serif;">
+    <table style="border-collapse:collapse; font-size:0.83rem; font-family:Inter,sans-serif; min-width:100%;">
         <thead>
-            <tr style="background:#f8f9fb; position:sticky; top:0; z-index:1;">
-                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Ưu tiên</th>
-                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Khía cạnh</th>
-                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Score</th>
-                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Neg Rate</th>
-                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Avg ★</th>
-                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Bộ phận</th>
-                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Hành động</th>
+            <tr>
+                <th style="{th}">Ưu tiên</th>
+                <th style="{th}">Khía cạnh</th>
+                <th style="{th} text-align:right;">Score</th>
+                <th style="{th} text-align:right;">Neg Rate</th>
+                <th style="{th} text-align:right;">Avg ★</th>
+                <th style="{th}">Bộ phận</th>
+                <th style="{th} border-right:none;">Hành động</th>
             </tr>
         </thead>
         <tbody>
