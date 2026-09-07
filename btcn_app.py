@@ -215,9 +215,15 @@ with st.sidebar:
 # LOAD DATA
 # ──────────────────────────────────────────────────────────────────────────────
 if data_mode == "📂 Dữ liệu mẫu (mặc định)":
-    df_priority = DEFAULT_PRIORITY.copy()
-    df_evidence = DEFAULT_EVIDENCE.copy()
-    cards       = DEFAULT_CARDS
+    try:
+        df_priority = pd.read_csv("priority_ranking.csv")
+        df_evidence = pd.read_csv("evidence_table.csv")
+        with open("decision_cards.json", encoding="utf-8") as _f:
+            cards = json.load(_f)
+    except FileNotFoundError:
+        df_priority = DEFAULT_PRIORITY.copy()
+        df_evidence = DEFAULT_EVIDENCE.copy()
+        cards       = DEFAULT_CARDS
 
 else:
     if f_priority is None or f_evidence is None or f_cards is None:
@@ -262,14 +268,14 @@ with tab1:
     st.markdown(f'<div class="section-title">Tổng quan kết quả phân tích Review – {DATASET_LABEL}</div>', unsafe_allow_html=True)
 
     # KPI row
-    n_reviews  = int(df_evidence.shape[0] * 8.3)   # ước tính từ evidence
+    n_sentences = df_evidence.shape[0]
     n_aspects  = df_priority.shape[0]
     n_p0       = int((df_priority["priority"] == "P0").sum())
     neg_overall = df_evidence[df_evidence["sentiment"] == "Negative"].shape[0] / df_evidence.shape[0]
 
     k1, k2, k3, k4 = st.columns(4)
     for col, label, val, sub in [
-        (k1, "Tổng review xử lý", f"{n_reviews:,}",    f"bản ghi {DATASET_LABEL}"),
+        (k1, "Tổng câu phân tích", f"{n_sentences:,}", "câu từ evidence"),
         (k2, "Khía cạnh phân tích", str(n_aspects),     "aspect categories"),
         (k3, "Ưu tiên P0",          str(n_p0),           "cần xử lý ngay"),
         (k4, "Tỷ lệ Negative",      f"{neg_overall:.0%}","trên toàn evidence"),
