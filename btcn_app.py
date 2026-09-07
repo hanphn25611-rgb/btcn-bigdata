@@ -204,6 +204,9 @@ with st.sidebar:
         f_priority = st.file_uploader("priority_ranking.csv", type="csv", key="pr")
         f_evidence = st.file_uploader("evidence_table.csv",   type="csv", key="ev")
         f_cards    = st.file_uploader("decision_cards.json",  type="json", key="dc")
+        st.markdown("---")
+        DATASET_LABEL = st.text_input("Tên dataset", value="Amazon Review", key="dataset_label",
+                                      help="Tên hiển thị trên tiêu đề và biểu đồ")
 
     st.markdown("---")
     st.caption("Bài tập cá nhân – Big Data")
