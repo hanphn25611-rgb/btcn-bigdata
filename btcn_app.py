@@ -551,24 +551,46 @@ with tab3:
     # Summary table
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown('<div class="section-eyebrow">Tóm tắt toàn bộ Decision Cards</div>', unsafe_allow_html=True)
-    df_cards_show = pd.DataFrame([{
-        "Ưu tiên": c["priority"],
-        "Khía cạnh": c["aspect_vi"],
-        "Score": c["priority_score"],
-        "Neg Rate": c["neg_rate"],
-        "Avg Rating": c["avg_rating"],
-        "Bộ phận": c["dept"],
-        "Hành động": c["action"],
-    } for c in cards])
-    st.dataframe(
-        df_cards_show,
-        hide_index=True,
-        use_container_width=True,
-        height=280,
-        column_config={
-            "Hành động": st.column_config.TextColumn(width="large"),
-            "Khía cạnh": st.column_config.TextColumn(width="medium"),
-            "Bộ phận":   st.column_config.TextColumn(width="medium"),
-            "Score":     st.column_config.NumberColumn(format="%.4f"),
-        },
-    )
+    PRIORITY_COLOR = {"P0": "#ef4444", "P1": "#f59e0b", "P1.5": "#f59e0b", "P2": "#22c55e"}
+    rows_html = ""
+    for c in cards:
+        pri = c.get("priority", "")
+        dot_color = PRIORITY_COLOR.get(pri, "#94a3b8")
+        neg = c.get("neg_rate", "")
+        neg_str = f"{neg:.1%}" if isinstance(neg, float) else str(neg)
+        avg = c.get("avg_rating", "")
+        avg_str = f"{avg:.2f}" if isinstance(avg, float) else str(avg)
+        score = c.get("priority_score", "")
+        score_str = f"{score:.4f}" if isinstance(score, float) else str(score)
+        action = str(c.get("action", ""))
+        dept   = str(c.get("dept", ""))
+        aspect = str(c.get("aspect_vi", ""))
+        rows_html += f"""<tr>
+            <td style="white-space:nowrap;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{dot_color};margin-right:6px;"></span>{pri}</td>
+            <td style="white-space:nowrap;">{aspect}</td>
+            <td style="white-space:nowrap;text-align:right;">{score_str}</td>
+            <td style="white-space:nowrap;text-align:right;">{neg_str}</td>
+            <td style="white-space:nowrap;text-align:right;">{avg_str}</td>
+            <td style="white-space:nowrap;">{dept}</td>
+            <td style="white-space:nowrap;max-width:420px;">{action}</td>
+        </tr>"""
+    st.markdown(f"""
+    <div style="overflow-x:auto; border:1px solid #e8ecf0; border-radius:10px; max-height:300px; overflow-y:auto;">
+    <table style="border-collapse:collapse; width:100%; font-size:0.83rem; font-family:Inter,sans-serif;">
+        <thead>
+            <tr style="background:#f8f9fb; position:sticky; top:0; z-index:1;">
+                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Ưu tiên</th>
+                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Khía cạnh</th>
+                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Score</th>
+                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Neg Rate</th>
+                <th style="padding:8px 12px; text-align:right; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Avg ★</th>
+                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Bộ phận</th>
+                <th style="padding:8px 12px; text-align:left; white-space:nowrap; border-bottom:1px solid #e8ecf0; color:#6b7280; font-weight:600;">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {rows_html}
+        </tbody>
+    </table>
+    </div>
+    """, unsafe_allow_html=True)
