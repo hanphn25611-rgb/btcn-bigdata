@@ -61,7 +61,7 @@ btcn-bigdata/
 
 ---
 
-## Ngưỡng hành động động
+## Ngưỡng hành động 
 
 | Neg Rate | Ký hiệu | Hành động |
 |---|---|---|
