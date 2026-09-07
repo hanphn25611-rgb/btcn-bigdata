@@ -560,15 +560,4 @@ with tab3:
         "Bộ phận": c["dept"],
         "Hành động": c["action"],
     } for c in cards])
-    st.dataframe(
-        df_cards_show,
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Hành động": st.column_config.TextColumn(width="large"),
-            "Khía cạnh": st.column_config.TextColumn(width="medium"),
-            "Bộ phận":   st.column_config.TextColumn(width="medium"),
-            "Score":     st.column_config.NumberColumn(format="%.4f"),
-        },
-        height=280,
-    )
+    st.dataframe(df_cards_show, hide_index=True, use_container_width=True)
