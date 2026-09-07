@@ -413,13 +413,13 @@ with tab2:
     st.dataframe(
         df_ev_filtered[["aspect_vi","sentiment","sentiment_score","rating","year","sentence"]].rename(columns={
             "aspect_vi": "Khía cạnh", "sentiment": "Sentiment",
-            "sentiment_score": "Score", "rating": "Rating",
+            "sentiment_score": "Độ tin cậy", "rating": "Rating",
             "year": "Năm", "sentence": "Câu evidence"
         }),
         hide_index=True,
         use_container_width=True,
         column_config={
-            "Score": st.column_config.ProgressColumn(format="%.2f", min_value=0, max_value=1),
+            "Độ tin cậy": st.column_config.ProgressColumn(format="%.2f", min_value=0, max_value=1),
             "Rating": st.column_config.NumberColumn(format="%d ★"),
         }
     )
