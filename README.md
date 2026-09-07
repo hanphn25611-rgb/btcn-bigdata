@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/31911560/README.md)
 # 📚 Amazon Books Review Analysis
 
 Bài tập cá nhân môn **Big Data** — Phân tích review khách hàng sách Amazon bằng PySpark, mô hình NLP và trực quan hoá qua Streamlit.
@@ -17,7 +16,7 @@ Hệ thống xử lý toàn bộ pipeline từ dữ liệu thô đến dashboard
 2. **Gán khía cạnh** — SentenceTransformer (`all-mpnet-base-v2`) + cosine similarity để phân loại câu review vào 10 khía cạnh
 3. **Phân tích sentiment** — RoBERTa (`cardiffnlp/twitter-roberta-base-sentiment-latest`) gán nhãn Positive / Negative / Neutral cho từng câu
 4. **Tóm tắt AI** — FLAN-T5 tổng hợp ý kiến tiêu cực theo từng khía cạnh
-5. **Tính điểm ưu tiên** — công thức `Priority Score = coverage × neg_rate × intensity × confidence`
+5. **Tính điểm ưu tiên** — công thức `Priority Score = coverage × neg_rate × intensity × confidence`, phân cấp theo ngưỡng P0/P1/P2
 6. **Trực quan hoá** — Streamlit dashboard với 3 tab, 4 biểu đồ, KPI cards và Decision Cards
 
 ---
@@ -61,7 +60,21 @@ btcn-bigdata/
 
 ---
 
-## Ngưỡng hành động 
+## Phân cấp ưu tiên (Priority Tier)
+
+Priority Score được tính theo công thức `coverage × neg_rate × intensity × confidence`, sau đó phân cấp theo ngưỡng:
+
+| Priority Score | Tier | Ý nghĩa |
+|---|---|---|
+| ≥ 0.02 | **P0** | Nghiêm trọng — xử lý ngay |
+| ≥ 0.005 | **P1** | Quan trọng — ưu tiên sớm |
+| < 0.005 | **P2** | Theo dõi định kỳ |
+
+> Decision Cards chỉ được tạo cho **P0 và P1**. P2 có Priority Score quá thấp để cần hành động cụ thể — không cần AI Summary hay giao việc cho bộ phận, tránh phân tán nguồn lực.
+
+## Ngưỡng hành động động (get_action)
+
+Trong mỗi Decision Card, hành động được làm linh động theo neg_rate thực tế của khía cạnh đó:
 
 | Neg Rate | Ký hiệu | Hành động |
 |---|---|---|
